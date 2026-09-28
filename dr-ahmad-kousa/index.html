@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
+    name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
   <title>Prescription Counter</title>
 
@@ -27,15 +26,17 @@
       max-width: 600px;
       margin: 0 auto;
     }
-html {
-  touch-action: manipulation;
-}
 
-body {
-  touch-action: manipulation;
-  -webkit-user-select: none;
-  user-select: none;
-}
+    html {
+      touch-action: manipulation;
+    }
+
+    body {
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
     /* =================================================
        HEADER
     ================================================= */
@@ -673,6 +674,10 @@ const JPEG_QUALITY = 0.82;
 // -----------------------------------------------------
 // PRODUCTS
 // -----------------------------------------------------
+// Add / remove products ONLY from this list.
+// If a product is removed here, it will automatically
+// disappear from the page and from the summary.
+// -----------------------------------------------------
 
 const PRODUCTS = [
 
@@ -694,6 +699,31 @@ const PRODUCTS = [
   {
     name: "ToulaCough",
     image: "../toulacough.jpg"
+  },
+
+  {
+    name: "Ferrostat Pedia",
+    image: "../ferrostat-pedia.jpg"
+  },
+
+  {
+    name: "Ferrostat Adult",
+    image: "../ferrostat-adult.png"
+  },
+
+  {
+    name: "Physiologica Septinasal",
+    image: "../physiologica-sep.jpg"
+  },
+
+  {
+    name: "Mig Spray",
+    image: "../mig-spray.jpg"
+  },
+
+  {
+    name: "Infabiotix",
+    image: "../infabiotix.jpg"
   }
 
 ];
