@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta
-    name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
   <title>Prescription Counter</title>
@@ -330,6 +332,10 @@
       font-size: 14px;
     }
 
+    /* =================================================
+       SUMMARY TOTAL
+    ================================================= */
+
     .summary-total {
       background: #111;
       color: white;
@@ -356,6 +362,41 @@
       opacity: 0.75;
       margin-top: 2px;
     }
+
+    /* =================================================
+       TOTAL VALUE
+    ================================================= */
+
+    .summary-value {
+      background: white;
+      color: #111;
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+    }
+
+    .summary-value-label {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .summary-value-number {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .summary-value-currency {
+      font-size: 13px;
+      color: #777;
+      margin-top: 2px;
+    }
+
+    /* =================================================
+       QUANTITY RESULTS
+    ================================================= */
 
     .quantity-results {
       display: grid;
@@ -398,6 +439,22 @@
       color: #777;
       margin-top: 2px;
     }
+
+    .quantity-value {
+      font-size: 17px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .quantity-price {
+      font-size: 11px;
+      color: #777;
+      margin-top: 3px;
+    }
+
+    /* =================================================
+       BUTTONS
+    ================================================= */
 
     .back-btn {
       width: 100%;
@@ -491,6 +548,7 @@
       .quantity {
         min-width: 42px;
       }
+
     }
 
   </style>
@@ -507,51 +565,52 @@
 
   <div id="mainPage">
 
-    <div class="header">
+```
+<div class="header">
 
-      <div class="header-icon">
-        💊
-      </div>
-
-      <h1>
-        Prescription Counter
-      </h1>
-
-      <div
-        class="doctor"
-        id="doctorName"
-      ></div>
-
-      <div
-        class="date"
-        id="currentDate"
-      ></div>
-
-    </div>
-
-    <div id="productsContainer"></div>
-
-    <button
-      class="submit-btn"
-      id="submitBtn"
-      onclick="submitPrescription()"
-    >
-      Submit Prescription
-    </button>
-
-    <div class="summary-section">
-
-      <button
-        class="summary-btn"
-        onclick="openSummary()"
-      >
-        📊 Monthly Prescription Summary
-      </button>
-
-    </div>
-
+  <div class="header-icon">
+    💊
   </div>
 
+  <h1>
+    Prescription Counter
+  </h1>
+
+  <div
+    class="doctor"
+    id="doctorName"
+  ></div>
+
+  <div
+    class="date"
+    id="currentDate"
+  ></div>
+
+</div>
+
+<div id="productsContainer"></div>
+
+<button
+  class="submit-btn"
+  id="submitBtn"
+  onclick="submitPrescription()"
+>
+  Submit Prescription
+</button>
+
+<div class="summary-section">
+
+  <button
+    class="summary-btn"
+    onclick="openSummary()"
+  >
+    📊 Monthly Prescription Summary
+  </button>
+
+</div>
+```
+
+  </div>
 
   <!-- =================================================
        SUMMARY PAGE
@@ -559,77 +618,108 @@
 
   <div id="summaryPage">
 
-    <div class="summary-header">
+```
+<div class="summary-header">
 
-      <div class="summary-icon">
-        📊
-      </div>
-
-      <h2>
-        Monthly Prescription Summary
-      </h2>
-
-      <div
-        class="summary-doctor"
-        id="summaryDoctor"
-      ></div>
-
-      <div
-        class="summary-month"
-        id="resultMonth"
-      ></div>
-
-    </div>
-
-
-    <div
-      class="summary-total"
-      id="summaryTotal"
-      style="display:none;"
-    >
-
-      <div class="summary-total-label">
-        Total Prescriptions
-      </div>
-
-      <div
-        class="summary-total-number"
-        id="summaryTotalNumber"
-      >
-        0
-      </div>
-
-      <div class="summary-total-text">
-        This Month
-      </div>
-
-    </div>
-
-
-    <div
-      class="quantity-results"
-      id="quantityResults"
-    ></div>
-
-
-    <button
-      class="refresh-btn"
-      id="refreshBtn"
-      onclick="getMonthlyQuantity()"
-    >
-      🔄 Refresh Summary
-    </button>
-
-
-    <button
-      class="back-btn"
-      onclick="closeSummary()"
-    >
-      ← Back to Prescription Counter
-    </button>
-
+  <div class="summary-icon">
+    📊
   </div>
 
+  <h2>
+    Monthly Prescription Summary
+  </h2>
+
+  <div
+    class="summary-doctor"
+    id="summaryDoctor"
+  ></div>
+
+  <div
+    class="summary-month"
+    id="resultMonth"
+  ></div>
+
+</div>
+
+
+<!-- TOTAL PRESCRIPTIONS -->
+
+<div
+  class="summary-total"
+  id="summaryTotal"
+  style="display:none;"
+>
+
+  <div class="summary-total-label">
+    Total Prescriptions
+  </div>
+
+  <div
+    class="summary-total-number"
+    id="summaryTotalNumber"
+  >
+    0
+  </div>
+
+  <div class="summary-total-text">
+    This Month
+  </div>
+
+</div>
+
+
+<!-- TOTAL VALUE -->
+
+<div
+  class="summary-value"
+  id="summaryValue"
+  style="display:none;"
+>
+
+  <div class="summary-value-label">
+    Total Value
+  </div>
+
+  <div
+    class="summary-value-number"
+    id="summaryValueNumber"
+  >
+    0
+  </div>
+
+  <div class="summary-value-currency">
+    AED
+  </div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div
+  class="quantity-results"
+  id="quantityResults"
+></div>
+
+
+<button
+  class="refresh-btn"
+  id="refreshBtn"
+  onclick="getMonthlyQuantity()"
+>
+  🔄 Refresh Summary
+</button>
+
+
+<button
+  class="back-btn"
+  onclick="closeSummary()"
+>
+  ← Back to Prescription Counter
+</button>
+```
+
+  </div>
 
   <div
     class="message"
@@ -637,7 +727,6 @@
   ></div>
 
 </div>
-
 
 <script>
 
@@ -673,10 +762,6 @@ const JPEG_QUALITY = 0.82;
 
 // -----------------------------------------------------
 // PRODUCTS
-// -----------------------------------------------------
-// Add / remove products ONLY from this list.
-// If a product is removed here, it will automatically
-// disappear from the page and from the summary.
 // -----------------------------------------------------
 
 const PRODUCTS = [
@@ -801,7 +886,6 @@ PRODUCTS.forEach((product, index) => {
       ${product.name}
     </div>
 
-
     <div class="counter">
 
       <button
@@ -827,7 +911,6 @@ PRODUCTS.forEach((product, index) => {
 
     </div>
 
-
     <div class="upload-area">
 
       <label
@@ -837,7 +920,6 @@ PRODUCTS.forEach((product, index) => {
         📷 Attach Prescription Images
       </label>
 
-
       <input
         type="file"
         id="file-${index}"
@@ -846,7 +928,6 @@ PRODUCTS.forEach((product, index) => {
         multiple
         onchange="handleFiles(${index}, this.files)"
       >
-
 
       <div
         class="file-list"
@@ -1024,8 +1105,6 @@ function compressImage(file) {
 
       img.onerror = function() {
 
-        // If the browser cannot decode the image,
-        // keep the original file.
         resolve(file);
 
       };
@@ -1070,7 +1149,8 @@ function renderFiles(index) {
     );
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   card._prescriptionFiles.forEach(
@@ -1221,7 +1301,6 @@ async function submitPrescription() {
         card._prescriptionFiles || [];
 
 
-      // Product has a quantity
       if (quantity > 0) {
 
         productsData.push({
@@ -1235,8 +1314,6 @@ async function submitPrescription() {
         });
 
 
-        // Only ONE image is required,
-        // regardless of the quantity.
         if (files.length === 0) {
 
           missingImages.push(
@@ -1277,7 +1354,7 @@ async function submitPrescription() {
 
 
     // -------------------------------------------------
-    // COMPRESS ALL IMAGES FIRST
+    // COMPRESS ALL IMAGES
     // -------------------------------------------------
 
     submitBtn.textContent =
@@ -1630,6 +1707,18 @@ async function getMonthlyQuantity() {
     );
 
 
+  const summaryValue =
+    document.getElementById(
+      "summaryValue"
+    );
+
+
+  const summaryValueNumber =
+    document.getElementById(
+      "summaryValueNumber"
+    );
+
+
   refreshBtn.disabled =
     true;
 
@@ -1647,6 +1736,10 @@ async function getMonthlyQuantity() {
 
 
   summaryTotal.style.display =
+    "none";
+
+
+  summaryValue.style.display =
     "none";
 
 
@@ -1709,9 +1802,9 @@ async function getMonthlyQuantity() {
     }
 
 
-    // -------------------------------------------------
-    // TOTAL
-    // -------------------------------------------------
+    // =================================================
+    // TOTAL QUANTITY
+    // =================================================
 
     const total =
       result.products.reduce(
@@ -1730,9 +1823,25 @@ async function getMonthlyQuantity() {
       "block";
 
 
-    // -------------------------------------------------
+    // =================================================
+    // TOTAL VALUE
+    // =================================================
+
+    const totalValue =
+      Number(result.totalValue) || 0;
+
+
+    summaryValueNumber.textContent =
+      `${totalValue.toFixed(2)}`;
+
+
+    summaryValue.style.display =
+      "block";
+
+
+    // =================================================
     // PRODUCTS
-    // -------------------------------------------------
+    // =================================================
 
     result.products.forEach(item => {
 
@@ -1744,8 +1853,28 @@ async function getMonthlyQuantity() {
 
 
       if (!productInfo) {
+
         return;
+
       }
+
+
+      const quantity =
+        Number(item.quantity) || 0;
+
+
+      const pricePerUnit =
+        Number(item.pricePerUnit) || 0;
+
+
+      const itemTotal =
+        Number(item.total);
+
+
+      const totalForProduct =
+        Number.isFinite(itemTotal)
+          ? itemTotal
+          : quantity * pricePerUnit;
 
 
       const card =
@@ -1770,11 +1899,19 @@ async function getMonthlyQuantity() {
         </div>
 
         <div class="quantity-number">
-          ${Number(item.quantity) || 0}
+          ${quantity}
         </div>
 
         <div class="quantity-label">
           prescriptions
+        </div>
+
+        <div class="quantity-value">
+          ${totalForProduct.toFixed(2)} AED
+        </div>
+
+        <div class="quantity-price">
+          ${pricePerUnit.toFixed(2)} AED / unit
         </div>
 
       `;
@@ -1787,9 +1924,9 @@ async function getMonthlyQuantity() {
     });
 
 
-    // -------------------------------------------------
+    // =================================================
     // MONTH
-    // -------------------------------------------------
+    // =================================================
 
     if (result.month) {
 
