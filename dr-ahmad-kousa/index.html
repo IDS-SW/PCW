@@ -158,80 +158,6 @@
     }
 
     /* =================================================
-       UPLOAD
-    ================================================= */
-
-    .upload-area {
-      margin-top: 16px;
-    }
-
-    .upload-label {
-      display: block;
-      text-align: center;
-      padding: 12px;
-      background: #f1f2f4;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #333;
-      transition: background 0.15s ease;
-    }
-
-    .upload-label:active {
-      background: #e5e6e8;
-    }
-
-    .upload-input {
-      display: none;
-    }
-
-    .file-list {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .file-item {
-      position: relative;
-      width: 82px;
-      height: 82px;
-      border-radius: 12px;
-      overflow: visible;
-    }
-
-    .file-preview {
-      width: 82px;
-      height: 82px;
-      object-fit: cover;
-      border-radius: 12px;
-      background: #f1f1f1;
-      display: block;
-    }
-
-    .remove-file {
-      position: absolute;
-      top: -7px;
-      right: -7px;
-      width: 25px;
-      height: 25px;
-      border: none;
-      border-radius: 50%;
-      background: #111;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      line-height: 25px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 2;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    }
-
-    /* =================================================
        SUBMIT
     ================================================= */
 
@@ -588,7 +514,9 @@
 
     </div>
 
+
     <div id="productsContainer"></div>
+
 
     <button
       class="submit-btn"
@@ -597,6 +525,7 @@
     >
       Submit Prescription
     </button>
+
 
     <div class="summary-section">
 
@@ -753,14 +682,6 @@ const QUANTITY_WEBHOOK_URL =
 
 
 // -----------------------------------------------------
-// IMAGE SETTINGS
-// -----------------------------------------------------
-
-const MAX_IMAGE_SIZE = 2000;
-const JPEG_QUALITY = 0.82;
-
-
-// -----------------------------------------------------
 // PRODUCTS
 // -----------------------------------------------------
 
@@ -871,8 +792,6 @@ PRODUCTS.forEach((product, index) => {
 
   card._quantity = 0;
 
-  card._prescriptionFiles = [];
-
 
   card.innerHTML = `
 
@@ -911,31 +830,6 @@ PRODUCTS.forEach((product, index) => {
 
     </div>
 
-    <div class="upload-area">
-
-      <label
-        class="upload-label"
-        for="file-${index}"
-      >
-        📷 Attach Prescription Images
-      </label>
-
-      <input
-        type="file"
-        id="file-${index}"
-        class="upload-input"
-        accept="image/*"
-        multiple
-        onchange="handleFiles(${index}, this.files)"
-      >
-
-      <div
-        class="file-list"
-        id="files-${index}"
-      ></div>
-
-    </div>
-
   `;
 
   productsContainer.appendChild(card);
@@ -966,260 +860,6 @@ function changeQuantity(index, amount) {
     `quantity-${index}`
   ).textContent =
     card._quantity;
-}
-
-
-// =====================================================
-// FILES
-// =====================================================
-
-function handleFiles(index, files) {
-
-  const cards =
-    document.querySelectorAll(".product-card");
-
-  const card =
-    cards[index];
-
-
-  for (const file of files) {
-
-    card._prescriptionFiles.push(file);
-
-  }
-
-
-  renderFiles(index);
-}
-
-
-// =====================================================
-// COMPRESS / CONVERT IMAGE
-// =====================================================
-
-function compressImage(file) {
-
-  return new Promise((resolve) => {
-
-    const reader =
-      new FileReader();
-
-
-    reader.onload = function(event) {
-
-      const img =
-        new Image();
-
-
-      img.onload = function() {
-
-        let width =
-          img.naturalWidth;
-
-        let height =
-          img.naturalHeight;
-
-
-        if (
-          width <= MAX_IMAGE_SIZE &&
-          height <= MAX_IMAGE_SIZE &&
-          file.type === "image/jpeg"
-        ) {
-
-          resolve(file);
-
-          return;
-
-        }
-
-
-        const scale =
-          Math.min(
-            1,
-            MAX_IMAGE_SIZE / Math.max(width, height)
-          );
-
-
-        width =
-          Math.round(width * scale);
-
-        height =
-          Math.round(height * scale);
-
-
-        const canvas =
-          document.createElement("canvas");
-
-        canvas.width =
-          width;
-
-        canvas.height =
-          height;
-
-
-        const ctx =
-          canvas.getContext("2d");
-
-
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          width,
-          height
-        );
-
-
-        canvas.toBlob(
-          function(blob) {
-
-            if (!blob) {
-
-              resolve(file);
-
-              return;
-
-            }
-
-
-            const newFile =
-              new File(
-                [blob],
-                `prescription-${Date.now()}.jpg`,
-                {
-                  type: "image/jpeg",
-                  lastModified: Date.now()
-                }
-              );
-
-
-            resolve(newFile);
-
-          },
-          "image/jpeg",
-          JPEG_QUALITY
-        );
-
-      };
-
-
-      img.onerror = function() {
-
-        resolve(file);
-
-      };
-
-
-      img.src =
-        event.target.result;
-
-    };
-
-
-    reader.onerror = function() {
-
-      resolve(file);
-
-    };
-
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-
-// =====================================================
-// RENDER FILES
-// =====================================================
-
-function renderFiles(index) {
-
-  const cards =
-    document.querySelectorAll(".product-card");
-
-  const card =
-    cards[index];
-
-
-  const container =
-    document.getElementById(
-      `files-${index}`
-    );
-
-
-  container.innerHTML =
-    "";
-
-
-  card._prescriptionFiles.forEach(
-    (file, fileIndex) => {
-
-      const item =
-        document.createElement("div");
-
-      item.className =
-        "file-item";
-
-
-      const img =
-        document.createElement("img");
-
-      img.className =
-        "file-preview";
-
-
-      const objectUrl =
-        URL.createObjectURL(file);
-
-
-      img.src =
-        objectUrl;
-
-
-      img.onload = function() {
-
-        URL.revokeObjectURL(objectUrl);
-
-      };
-
-
-      const removeBtn =
-        document.createElement("button");
-
-      removeBtn.type =
-        "button";
-
-      removeBtn.className =
-        "remove-file";
-
-      removeBtn.textContent =
-        "×";
-
-
-      removeBtn.onclick =
-        function() {
-
-          card._prescriptionFiles.splice(
-            fileIndex,
-            1
-          );
-
-          renderFiles(index);
-
-        };
-
-
-      item.appendChild(img);
-
-      item.appendChild(removeBtn);
-
-      container.appendChild(item);
-
-    }
-  );
-
 }
 
 
@@ -1326,42 +966,6 @@ async function submitPrescription() {
 
 
     // -------------------------------------------------
-    // COMPRESS ALL IMAGES
-    // -------------------------------------------------
-
-    submitBtn.textContent =
-      "Preparing Images...";
-
-
-    for (const card of cards) {
-
-      const originalFiles =
-        card._prescriptionFiles || [];
-
-
-      const compressedFiles = [];
-
-
-      for (const file of originalFiles) {
-
-        const compressedFile =
-          await compressImage(file);
-
-
-        compressedFiles.push(
-          compressedFile
-        );
-
-      }
-
-
-      card._prescriptionFiles =
-        compressedFiles;
-
-    }
-
-
-    // -------------------------------------------------
     // FORM DATA
     // -------------------------------------------------
 
@@ -1384,47 +988,6 @@ async function submitPrescription() {
     formData.append(
       "products",
       JSON.stringify(productsData)
-    );
-
-
-    let imageIndex = 0;
-
-
-    cards.forEach(card => {
-
-      const product =
-        card.dataset.product;
-
-
-      const files =
-        card._prescriptionFiles || [];
-
-
-      files.forEach(file => {
-
-        formData.append(
-          `image_${imageIndex}`,
-          file,
-          file.name
-        );
-
-
-        formData.append(
-          `image_${imageIndex}_product`,
-          product
-        );
-
-
-        imageIndex++;
-
-      });
-
-    });
-
-
-    formData.append(
-      "imageCount",
-      String(imageIndex)
     );
 
 
@@ -1497,9 +1060,6 @@ async function submitPrescription() {
       card._quantity =
         0;
 
-      card._prescriptionFiles =
-        [];
-
     });
 
 
@@ -1509,26 +1069,6 @@ async function submitPrescription() {
         `quantity-${index}`
       ).textContent =
         "0";
-
-
-      document.getElementById(
-        `files-${index}`
-      ).innerHTML =
-        "";
-
-
-      const fileInput =
-        document.getElementById(
-          `file-${index}`
-        );
-
-
-      if (fileInput) {
-
-        fileInput.value =
-          "";
-
-      }
 
     });
 
