@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
   <title>Prescription Counter</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -27,15 +28,17 @@
       max-width: 600px;
       margin: 0 auto;
     }
-html {
-  touch-action: manipulation;
-}
 
-body {
-  touch-action: manipulation;
-  -webkit-user-select: none;
-  user-select: none;
-}
+    html {
+      touch-action: manipulation;
+    }
+
+    body {
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
     /* =================================================
        HEADER
     ================================================= */
@@ -154,80 +157,6 @@ body {
     }
 
     /* =================================================
-       UPLOAD
-    ================================================= */
-
-    .upload-area {
-      margin-top: 16px;
-    }
-
-    .upload-label {
-      display: block;
-      text-align: center;
-      padding: 12px;
-      background: #f1f2f4;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #333;
-      transition: background 0.15s ease;
-    }
-
-    .upload-label:active {
-      background: #e5e6e8;
-    }
-
-    .upload-input {
-      display: none;
-    }
-
-    .file-list {
-      margin-top: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .file-item {
-      position: relative;
-      width: 82px;
-      height: 82px;
-      border-radius: 12px;
-      overflow: visible;
-    }
-
-    .file-preview {
-      width: 82px;
-      height: 82px;
-      object-fit: cover;
-      border-radius: 12px;
-      background: #f1f1f1;
-      display: block;
-    }
-
-    .remove-file {
-      position: absolute;
-      top: -7px;
-      right: -7px;
-      width: 25px;
-      height: 25px;
-      border: none;
-      border-radius: 50%;
-      background: #111;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      line-height: 25px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 2;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    }
-
-    /* =================================================
        SUBMIT
     ================================================= */
 
@@ -329,6 +258,10 @@ body {
       font-size: 14px;
     }
 
+    /* =================================================
+       SUMMARY TOTAL
+    ================================================= */
+
     .summary-total {
       background: #111;
       color: white;
@@ -355,6 +288,41 @@ body {
       opacity: 0.75;
       margin-top: 2px;
     }
+
+    /* =================================================
+       TOTAL VALUE
+    ================================================= */
+
+    .summary-value {
+      background: white;
+      color: #111;
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+      margin-bottom: 15px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.07);
+    }
+
+    .summary-value-label {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .summary-value-number {
+      font-size: 30px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .summary-value-currency {
+      font-size: 13px;
+      color: #777;
+      margin-top: 2px;
+    }
+
+    /* =================================================
+       QUANTITY RESULTS
+    ================================================= */
 
     .quantity-results {
       display: grid;
@@ -397,6 +365,22 @@ body {
       color: #777;
       margin-top: 2px;
     }
+
+    .quantity-value {
+      font-size: 17px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .quantity-price {
+      font-size: 11px;
+      color: #777;
+      margin-top: 3px;
+    }
+
+    /* =================================================
+       BUTTONS
+    ================================================= */
 
     .back-btn {
       width: 100%;
@@ -490,6 +474,7 @@ body {
       .quantity {
         min-width: 42px;
       }
+
     }
 
   </style>
@@ -528,7 +513,9 @@ body {
 
     </div>
 
+
     <div id="productsContainer"></div>
+
 
     <button
       class="submit-btn"
@@ -537,6 +524,7 @@ body {
     >
       Submit Prescription
     </button>
+
 
     <div class="summary-section">
 
@@ -581,6 +569,8 @@ body {
     </div>
 
 
+    <!-- TOTAL PRESCRIPTIONS -->
+
     <div
       class="summary-total"
       id="summaryTotal"
@@ -604,6 +594,34 @@ body {
 
     </div>
 
+
+    <!-- TOTAL VALUE -->
+
+    <div
+      class="summary-value"
+      id="summaryValue"
+      style="display:none;"
+    >
+
+      <div class="summary-value-label">
+        Total Value
+      </div>
+
+      <div
+        class="summary-value-number"
+        id="summaryValueNumber"
+      >
+        0
+      </div>
+
+      <div class="summary-value-currency">
+        AED
+      </div>
+
+    </div>
+
+
+    <!-- PRODUCTS -->
 
     <div
       class="quantity-results"
@@ -663,34 +681,10 @@ const QUANTITY_WEBHOOK_URL =
 
 
 // -----------------------------------------------------
-// IMAGE SETTINGS
-// -----------------------------------------------------
-
-const MAX_IMAGE_SIZE = 2000;
-const JPEG_QUALITY = 0.82;
-
-
-// -----------------------------------------------------
 // PRODUCTS
 // -----------------------------------------------------
 
 const PRODUCTS = [
-
-  {
-    name: "Physiologica Iso Spray",
-    image: "../physiologica-iso.jpg"
-  },
-
-  {
-    name: "Physiologica Hyper Spray",
-    image: "../physiologica-hyper.jpg"
-  },
-
-  {
-    name: "Privitus",
-    image: "../privitus.jpg"
-  },
-
   {
     name: "ToulaCough",
     image: "../toulacough.jpg"
@@ -756,8 +750,6 @@ PRODUCTS.forEach((product, index) => {
 
   card._quantity = 0;
 
-  card._prescriptionFiles = [];
-
 
   card.innerHTML = `
 
@@ -770,7 +762,6 @@ PRODUCTS.forEach((product, index) => {
     <div class="product-name">
       ${product.name}
     </div>
-
 
     <div class="counter">
 
@@ -794,34 +785,6 @@ PRODUCTS.forEach((product, index) => {
       >
         +
       </button>
-
-    </div>
-
-
-    <div class="upload-area">
-
-      <label
-        class="upload-label"
-        for="file-${index}"
-      >
-        📷 Attach Prescription Images
-      </label>
-
-
-      <input
-        type="file"
-        id="file-${index}"
-        class="upload-input"
-        accept="image/*"
-        multiple
-        onchange="handleFiles(${index}, this.files)"
-      >
-
-
-      <div
-        class="file-list"
-        id="files-${index}"
-      ></div>
 
     </div>
 
@@ -855,261 +818,6 @@ function changeQuantity(index, amount) {
     `quantity-${index}`
   ).textContent =
     card._quantity;
-}
-
-
-// =====================================================
-// FILES
-// =====================================================
-
-function handleFiles(index, files) {
-
-  const cards =
-    document.querySelectorAll(".product-card");
-
-  const card =
-    cards[index];
-
-
-  for (const file of files) {
-
-    card._prescriptionFiles.push(file);
-
-  }
-
-
-  renderFiles(index);
-}
-
-
-// =====================================================
-// COMPRESS / CONVERT IMAGE
-// =====================================================
-
-function compressImage(file) {
-
-  return new Promise((resolve) => {
-
-    const reader =
-      new FileReader();
-
-
-    reader.onload = function(event) {
-
-      const img =
-        new Image();
-
-
-      img.onload = function() {
-
-        let width =
-          img.naturalWidth;
-
-        let height =
-          img.naturalHeight;
-
-
-        if (
-          width <= MAX_IMAGE_SIZE &&
-          height <= MAX_IMAGE_SIZE &&
-          file.type === "image/jpeg"
-        ) {
-
-          resolve(file);
-
-          return;
-
-        }
-
-
-        const scale =
-          Math.min(
-            1,
-            MAX_IMAGE_SIZE / Math.max(width, height)
-          );
-
-
-        width =
-          Math.round(width * scale);
-
-        height =
-          Math.round(height * scale);
-
-
-        const canvas =
-          document.createElement("canvas");
-
-        canvas.width =
-          width;
-
-        canvas.height =
-          height;
-
-
-        const ctx =
-          canvas.getContext("2d");
-
-
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          width,
-          height
-        );
-
-
-        canvas.toBlob(
-          function(blob) {
-
-            if (!blob) {
-
-              resolve(file);
-
-              return;
-
-            }
-
-
-            const newFile =
-              new File(
-                [blob],
-                `prescription-${Date.now()}.jpg`,
-                {
-                  type: "image/jpeg",
-                  lastModified: Date.now()
-                }
-              );
-
-
-            resolve(newFile);
-
-          },
-          "image/jpeg",
-          JPEG_QUALITY
-        );
-
-      };
-
-
-      img.onerror = function() {
-
-        // If the browser cannot decode the image,
-        // keep the original file.
-        resolve(file);
-
-      };
-
-
-      img.src =
-        event.target.result;
-
-    };
-
-
-    reader.onerror = function() {
-
-      resolve(file);
-
-    };
-
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-
-// =====================================================
-// RENDER FILES
-// =====================================================
-
-function renderFiles(index) {
-
-  const cards =
-    document.querySelectorAll(".product-card");
-
-  const card =
-    cards[index];
-
-
-  const container =
-    document.getElementById(
-      `files-${index}`
-    );
-
-
-  container.innerHTML = "";
-
-
-  card._prescriptionFiles.forEach(
-    (file, fileIndex) => {
-
-      const item =
-        document.createElement("div");
-
-      item.className =
-        "file-item";
-
-
-      const img =
-        document.createElement("img");
-
-      img.className =
-        "file-preview";
-
-
-      const objectUrl =
-        URL.createObjectURL(file);
-
-
-      img.src =
-        objectUrl;
-
-
-      img.onload = function() {
-
-        URL.revokeObjectURL(objectUrl);
-
-      };
-
-
-      const removeBtn =
-        document.createElement("button");
-
-      removeBtn.type =
-        "button";
-
-      removeBtn.className =
-        "remove-file";
-
-      removeBtn.textContent =
-        "×";
-
-
-      removeBtn.onclick =
-        function() {
-
-          card._prescriptionFiles.splice(
-            fileIndex,
-            1
-          );
-
-          renderFiles(index);
-
-        };
-
-
-      item.appendChild(img);
-
-      item.appendChild(removeBtn);
-
-      container.appendChild(item);
-
-    }
-  );
-
 }
 
 
@@ -1168,11 +876,9 @@ async function submitPrescription() {
 
     const productsData = [];
 
-    const missingImages = [];
-
 
     // -------------------------------------------------
-    // CHECK QUANTITIES + REQUIRED IMAGES
+    // CHECK QUANTITIES
     // -------------------------------------------------
 
     cards.forEach(card => {
@@ -1187,11 +893,6 @@ async function submitPrescription() {
         card.dataset.product;
 
 
-      const files =
-        card._prescriptionFiles || [];
-
-
-      // Product has a quantity
       if (quantity > 0) {
 
         productsData.push({
@@ -1203,17 +904,6 @@ async function submitPrescription() {
             quantity
 
         });
-
-
-        // Only ONE image is required,
-        // regardless of the quantity.
-        if (files.length === 0) {
-
-          missingImages.push(
-            product
-          );
-
-        }
 
       }
 
@@ -1229,55 +919,6 @@ async function submitPrescription() {
       throw new Error(
         "Please enter at least one quantity."
       );
-
-    }
-
-
-    // -------------------------------------------------
-    // MISSING IMAGES
-    // -------------------------------------------------
-
-    if (missingImages.length > 0) {
-
-      throw new Error(
-        `Prescription image is missing for: ${missingImages.join(", ")}`
-      );
-
-    }
-
-
-    // -------------------------------------------------
-    // COMPRESS ALL IMAGES FIRST
-    // -------------------------------------------------
-
-    submitBtn.textContent =
-      "Preparing Images...";
-
-
-    for (const card of cards) {
-
-      const originalFiles =
-        card._prescriptionFiles || [];
-
-
-      const compressedFiles = [];
-
-
-      for (const file of originalFiles) {
-
-        const compressedFile =
-          await compressImage(file);
-
-
-        compressedFiles.push(
-          compressedFile
-        );
-
-      }
-
-
-      card._prescriptionFiles =
-        compressedFiles;
 
     }
 
@@ -1305,47 +946,6 @@ async function submitPrescription() {
     formData.append(
       "products",
       JSON.stringify(productsData)
-    );
-
-
-    let imageIndex = 0;
-
-
-    cards.forEach(card => {
-
-      const product =
-        card.dataset.product;
-
-
-      const files =
-        card._prescriptionFiles || [];
-
-
-      files.forEach(file => {
-
-        formData.append(
-          `image_${imageIndex}`,
-          file,
-          file.name
-        );
-
-
-        formData.append(
-          `image_${imageIndex}_product`,
-          product
-        );
-
-
-        imageIndex++;
-
-      });
-
-    });
-
-
-    formData.append(
-      "imageCount",
-      String(imageIndex)
     );
 
 
@@ -1418,9 +1018,6 @@ async function submitPrescription() {
       card._quantity =
         0;
 
-      card._prescriptionFiles =
-        [];
-
     });
 
 
@@ -1430,26 +1027,6 @@ async function submitPrescription() {
         `quantity-${index}`
       ).textContent =
         "0";
-
-
-      document.getElementById(
-        `files-${index}`
-      ).innerHTML =
-        "";
-
-
-      const fileInput =
-        document.getElementById(
-          `file-${index}`
-        );
-
-
-      if (fileInput) {
-
-        fileInput.value =
-          "";
-
-      }
 
     });
 
@@ -1600,6 +1177,18 @@ async function getMonthlyQuantity() {
     );
 
 
+  const summaryValue =
+    document.getElementById(
+      "summaryValue"
+    );
+
+
+  const summaryValueNumber =
+    document.getElementById(
+      "summaryValueNumber"
+    );
+
+
   refreshBtn.disabled =
     true;
 
@@ -1617,6 +1206,10 @@ async function getMonthlyQuantity() {
 
 
   summaryTotal.style.display =
+    "none";
+
+
+  summaryValue.style.display =
     "none";
 
 
@@ -1679,9 +1272,9 @@ async function getMonthlyQuantity() {
     }
 
 
-    // -------------------------------------------------
-    // TOTAL
-    // -------------------------------------------------
+    // =================================================
+    // TOTAL QUANTITY
+    // =================================================
 
     const total =
       result.products.reduce(
@@ -1700,9 +1293,25 @@ async function getMonthlyQuantity() {
       "block";
 
 
-    // -------------------------------------------------
+    // =================================================
+    // TOTAL VALUE
+    // =================================================
+
+    const totalValue =
+      Number(result.totalValue) || 0;
+
+
+    summaryValueNumber.textContent =
+      `${totalValue.toFixed(2)}`;
+
+
+    summaryValue.style.display =
+      "block";
+
+
+    // =================================================
     // PRODUCTS
-    // -------------------------------------------------
+    // =================================================
 
     result.products.forEach(item => {
 
@@ -1714,8 +1323,28 @@ async function getMonthlyQuantity() {
 
 
       if (!productInfo) {
+
         return;
+
       }
+
+
+      const quantity =
+        Number(item.quantity) || 0;
+
+
+      const pricePerUnit =
+        Number(item.pricePerUnit) || 0;
+
+
+      const itemTotal =
+        Number(item.total);
+
+
+      const totalForProduct =
+        Number.isFinite(itemTotal)
+          ? itemTotal
+          : quantity * pricePerUnit;
 
 
       const card =
@@ -1740,11 +1369,19 @@ async function getMonthlyQuantity() {
         </div>
 
         <div class="quantity-number">
-          ${Number(item.quantity) || 0}
+          ${quantity}
         </div>
 
         <div class="quantity-label">
           prescriptions
+        </div>
+
+        <div class="quantity-value">
+          ${totalForProduct.toFixed(2)} AED
+        </div>
+
+        <div class="quantity-price">
+          ${pricePerUnit.toFixed(2)} AED / unit
         </div>
 
       `;
@@ -1757,9 +1394,9 @@ async function getMonthlyQuantity() {
     });
 
 
-    // -------------------------------------------------
+    // =================================================
     // MONTH
-    // -------------------------------------------------
+    // =================================================
 
     if (result.month) {
 
